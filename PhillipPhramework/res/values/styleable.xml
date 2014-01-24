@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SlidingMenu">
+        <attr name="left" format="reference"/>
+        <attr name="right" format="reference"/>
+        <attr name="main" format="reference"/>
+        <attr name="visible_menu" format="float"/>
+        <attr name="rightButton" format="reference"/>
+        <attr name="leftButton" format="reference"/>
+        <attr name="rightShadowSrc" format="reference"/>
+        <attr name="rightShadowWidth" format="float"/>
+    </declare-styleable>
+</resources>
