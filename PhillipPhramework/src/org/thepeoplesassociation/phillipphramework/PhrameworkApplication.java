@@ -3,7 +3,6 @@ package org.thepeoplesassociation.phillipphramework;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.thepeoplesassociation.phillipphramework.communication.PhrameworkBluetooth;
 import org.thepeoplesassociation.phillipphramework.datamanipulation.DatabaseTable;
 import org.thepeoplesassociation.phillipphramework.datamanipulation.PhrameworkDatabase;
 import org.thepeoplesassociation.phillipphramework.datamanipulation.PhrameworkPreferences;
@@ -12,10 +11,8 @@ import org.thepeoplesassociation.phillipphramework.error.PhrameworkException;
 import org.thepeoplesassociation.phillipphramework.error.PhrameworkExceptionHandler;
 import org.thepeoplesassociation.phillipphramework.error.TableError;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
-import android.bluetooth.BluetoothDevice;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.util.Log;
@@ -54,7 +51,6 @@ public abstract class PhrameworkApplication extends Application {
 	/**
 	 * the current instance of the blue tooth helper if necessary
 	 */
-	PhrameworkBluetooth bluetooth;
 	public boolean searchingForBluetooth;
 	
 	public static Location lastLocation;
@@ -226,38 +222,6 @@ public abstract class PhrameworkApplication extends Application {
 	public PhrameworkPreferences getPreferences(){
 		return preferences;
 	}
-/****************************************************************************************************************************
- * Bluetooth stuff
- ***************************************************************************************************************************/
-	/**
-	 * @return a handle to the bluetooth helper
-	 */
-	public PhrameworkBluetooth getBluetooth(){
-		return bluetooth;
-	}
-	
-	@SuppressLint("NewApi")
-	public void checkIfBluetoothEnabled(){
-		if(!bluetooth.getAdapter().isEnabled()){
-			if(forceBluetooth())
-				bluetooth.getAdapter().enable();
-			else{
-				Activity activity = getRecentActivity();
-				if(activity != null && activity instanceof PhrameworkActivity){
-					((PhrameworkActivity)activity).requestBluetoothEnable();
-				}
-			}
-		}
-	}
-	/**
-	 * checks if we want to force the bluetooth on
-	 * @return false by default
-	 */
-	public boolean forceBluetooth(){
-		return false;
-	}
-	public void onBluetoothDeviceDiscovered(BluetoothDevice device){}
-	public void doneFetchingBluetooth(ArrayList<BluetoothDevice> devices){}
 /****************************************************************************************************************************
  * exception methods
  ***************************************************************************************************************************/

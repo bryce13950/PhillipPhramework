@@ -1,7 +1,5 @@
 package org.thepeoplesassociation.phillipphramework;
 
-import org.thepeoplesassociation.phillipphramework.communication.PhrameworkBluetooth;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -13,20 +11,21 @@ public abstract class PhrameworkActivity extends Activity{
 
 	protected static final int NOTHING = 0;
 	/**
-	 * pass this into the onCreate if you want to force the Bluetooth antenna on
+	 * pass this into the onCreate if you want to force the bluetooth radio on
 	 */
-	protected static final int BLUETOOTH = 1;
-	protected static final int BLUETOOTH_NOTIFY = 2;
+	protected static final int BLUETOOTH_FORCE = 1;
+	/**
+	 * pass this into the onCreate if you want to ask the user to enable bluetooth
+	 */
+	protected static final int BLUETOOTH_ASK = 2;
 	
 	private static final int REQUEST_ENABLE_BT = 1000;
 	
 	protected PhrameworkApplication application;
 	
-	protected PhrameworkBluetooth bluetooth;
+	private int bluetoothRequirement = 0;
 	
 	protected boolean bluetoothSupported;
-	
-	protected boolean notifyBluetooth = false;
 	
 	@Deprecated
 	@Override
@@ -44,25 +43,29 @@ public abstract class PhrameworkActivity extends Activity{
 		application = (PhrameworkApplication) getApplication();
 		application.addActivity(this);
 		setContentView(layout);
-		if(initiate - BLUETOOTH_NOTIFY >= 0){
-			initiate -= BLUETOOTH_NOTIFY;
-			notifyBluetooth = true;
-			initiateBluetooth(true);
+		if(initiate - BLUETOOTH_ASK >= 0){
+			initiate -= BLUETOOTH_ASK;
+			bluetoothRequirement = BLUETOOTH_ASK;
+			initiateBluetooth();
 		}
-		if(initiate - BLUETOOTH >= 0){
-			initiate -= BLUETOOTH;
-			initiateBluetooth(false);
+		if(initiate - BLUETOOTH_FORCE >= 0){
+			initiate -= BLUETOOTH_FORCE;
+			bluetoothRequirement = BLUETOOTH_FORCE;
+			initiateBluetooth();
 		}
 	}
 	
-	protected final void initiateBluetooth(boolean notify){
-		if(application.bluetooth == null) application.bluetooth = new PhrameworkBluetooth();
-		bluetooth = application.bluetooth;
-		bluetoothSupported = application.bluetooth.bluetoothSupported();
-		if(!bluetoothSupported && notify)
+	protected final void initiateBluetooth(){
+		BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+		if(adapter == null)
 			notifyBluetoothRequired();
-		else
-			application.checkIfBluetoothEnabled();
+		else if(!adapter.isEnabled()){
+			if(bluetoothRequirement == BLUETOOTH_FORCE)
+				adapter.enable();
+			else{
+				requestBluetoothEnable();
+			}
+		}
 	}
 	
 	private final void notifyBluetoothRequired(){
@@ -96,8 +99,7 @@ public abstract class PhrameworkActivity extends Activity{
 		switch(requestCode){
 		case REQUEST_ENABLE_BT:
 			if(resultCode == RESULT_CANCELED){
-				if(notifyBluetooth)
-					notifyBluetoothRequired();
+				notifyBluetoothRequired();
 			}
 		}
 	}
