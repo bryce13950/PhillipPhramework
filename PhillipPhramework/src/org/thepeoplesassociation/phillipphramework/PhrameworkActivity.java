@@ -12,10 +12,11 @@ import android.os.Bundle;
 public abstract class PhrameworkActivity extends Activity{
 
 	protected static final int NOTHING = 0;
+	/**
+	 * pass this into the onCreate if you want to force the Bluetooth antenna on
+	 */
 	protected static final int BLUETOOTH = 1;
 	protected static final int BLUETOOTH_NOTIFY = 2;
-	protected static final int LOCATION_FINE = 4;
-	protected static final int LOCATION_COARSE = 8;
 	
 	private static final int REQUEST_ENABLE_BT = 1000;
 	
@@ -26,23 +27,23 @@ public abstract class PhrameworkActivity extends Activity{
 	protected boolean bluetoothSupported;
 	
 	protected boolean notifyBluetooth = false;
+	
+	@Deprecated
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		throw new RuntimeException("Please call the super method specific to this framework in order to take advantage of this framework");
+	}
 	/**
 	 * call this instead of the standard onCreate
 	 * @param savedInstanceState the bundle instance state
 	 * @param layout the layout that this activity will use no need to set the content view if you call this
-	 * @param initiate a sum of all the available features you can initiate
+	 * @param initiate a sum of all the available features you want to initiate
 	 */
 	protected void onCreate(Bundle savedInstanceState, int layout, int initiate){
 		super.onCreate(savedInstanceState);
 		application = (PhrameworkApplication) getApplication();
 		application.addActivity(this);
 		setContentView(layout);
-		if(initiate - LOCATION_COARSE >= 0){
-			initiate -= LOCATION_COARSE;
-		}
-		if(initiate - LOCATION_FINE >= 0){
-			initiate -= LOCATION_FINE;
-		}
 		if(initiate - BLUETOOTH_NOTIFY >= 0){
 			initiate -= BLUETOOTH_NOTIFY;
 			notifyBluetooth = true;

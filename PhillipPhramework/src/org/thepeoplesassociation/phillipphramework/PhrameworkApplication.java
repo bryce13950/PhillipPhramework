@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.location.Location;
 import android.util.Log;
 
 
@@ -55,6 +56,8 @@ public abstract class PhrameworkApplication extends Application {
 	 */
 	PhrameworkBluetooth bluetooth;
 	public boolean searchingForBluetooth;
+	
+	public static Location lastLocation;
 	protected ArrayList<PhrameworkActivity> activities = new ArrayList<PhrameworkActivity>();
 /****************************************************************************************************************************
  * initialization methods
