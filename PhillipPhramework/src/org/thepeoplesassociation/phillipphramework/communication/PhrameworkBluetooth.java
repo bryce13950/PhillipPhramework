@@ -1,11 +1,9 @@
 package org.thepeoplesassociation.phillipphramework.communication;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
-import org.thepeoplesassociation.phillipphramework.PhrameworkActivity;
 import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,9 +16,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.ParcelUuid;
-
-import com.bryce13950.framework.R;
 
 public class PhrameworkBluetooth {
 	
@@ -30,13 +25,9 @@ public class PhrameworkBluetooth {
 	
 	private ProgressDialog mProgressDialog;
 
-	private BluetoothDevice mDevice;
-	
 	private ArrayList<BluetoothDevice> devices;
 	
 	private PhrameworkApplication application;
-	
-	private static DiscoverBluetoothDevices bluetoothDiscovery;
 	
 	public PhrameworkBluetooth(){
 		mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -82,16 +73,6 @@ public class PhrameworkBluetooth {
 		return mAdapter;
 	}
 	
-	private void showProgressDialog(int message){
-		Activity activity = application.getRecentActivity();
-		if(activity != null && activity.hasWindowFocus()){
-			mProgressDialog = new ProgressDialog(activity);
-			mProgressDialog.setTitle(R.string.please_wait);
-			mProgressDialog.setMessage(activity.getResources().getString(message));
-			mProgressDialog.show();
-		}
-	}
-	
 	public class DiscoverBluetoothDevices extends PhrameworkAsyncTask<Void,BluetoothDevice,Boolean>{
 		
 		public static final int SEARCH_UNABLE = 0;
@@ -102,7 +83,6 @@ public class PhrameworkBluetooth {
 		
 		public DiscoverBluetoothDevices() {
 			super("DiscoverBluetoothDevices");
-			bluetoothDiscovery = this;
 			devices = new ArrayList<BluetoothDevice>();
 			PhrameworkApplication.instance.searchingForBluetooth = true;
 			IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
@@ -161,70 +141,5 @@ public class PhrameworkBluetooth {
 		        }
 		    }
 		};
-	}
-	
-	public class ForceBluetoothConnectPaired extends PhrameworkAsyncTask<Void,Void,Boolean>{
-		
-		public ForceBluetoothConnectPaired(BluetoothDevice device) {
-			super("ForceBluetoothConnectPaired");
-			showProgressDialog(R.string.connecting_bluetooth);
-			mDevice = device;
-			if(bluetoothDiscovery != null){
-				bluetoothDiscovery.cancel(true);
-				bluetoothDiscovery.handlePostExecute(true);
-				bluetoothDiscovery = null;
-			}
-			executeOnExecutor(THREAD_POOL_EXECUTOR);
-		}
-
-		
-		@Override
-		protected Boolean doWork(Void... params) {
-			BluetoothSocket socket = null;
-			long start = System.currentTimeMillis();
-			mDevice.fetchUuidsWithSdp();
-			ParcelUuid[] uuids = mDevice.getUuids();
-			while(start + 200 >= System.currentTimeMillis()){
-				try{
-					if(uuids != null){
-						for(ParcelUuid uuid:uuids){
-							try{
-								socket = mDevice.createInsecureRfcommSocketToServiceRecord(uuid.getUuid());
-								socket.connect();
-								mSocket = socket;
-								return true;
-							}catch(IOException e){
-								PhrameworkApplication.handleCaughtException(e,e.getMessage());
-							}
-						}
-					}
-					socket = mDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
-					socket.connect();
-					mSocket = socket;
-					return true;
-				}
-				catch(IOException e){
-					PhrameworkApplication.logDebug(e.getMessage());
-					//TODO this may just happen when the device is disabled
-					return false;
-				}
-	      	}
-			return false;
-		}
-
-		@Override
-		protected void handlePostExecute(Boolean success) {
-			if(mProgressDialog!=null)mProgressDialog.dismiss();
-			if(success){
-				Activity activity = application.getRecentActivity();
-				if(activity != null && activity instanceof PhrameworkActivity){
-					((PhrameworkActivity)activity).onBluetoothConnectionEstablished();
-				}
-			}
-			else if(!mAdapter.isEnabled())
-				askToEnable(R.string.bluetooth_connection_unable);
-			else
-				unknownError();
-		}
 	}
 }

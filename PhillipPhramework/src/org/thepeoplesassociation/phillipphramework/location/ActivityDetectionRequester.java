@@ -47,10 +47,6 @@ public class ActivityDetectionRequester implements GooglePlayServicesClient.Conn
         getActivityRecognitionClient().connect();
     }
 
-    private void requestDisconnection() {
-        getActivityRecognitionClient().disconnect();
-    }
-
     private void continueRequestActivityUpdates() {
         getActivityRecognitionClient().requestActivityUpdates(
                 ActivityRecognitionConstants.ACTIVITY_DETECTION_INTERVAL,

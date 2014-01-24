@@ -9,8 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.bryce13950.framework.R;
-
 public abstract class PhrameworkActivity extends Activity{
 
 	protected static final int NOTHING = 0;

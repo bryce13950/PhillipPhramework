@@ -1,6 +1,6 @@
 package org.thepeoplesassociation.phillipphramework.view;
 
-import com.bryce13950.framework.R;
+import org.thepeoplesassociation.phillipphramework.R;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
