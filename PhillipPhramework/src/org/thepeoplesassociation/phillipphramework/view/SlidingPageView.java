@@ -1,6 +1,6 @@
 package org.thepeoplesassociation.phillipphramework.view;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -50,7 +50,7 @@ public class SlidingPageView extends ViewGroup{
 	
 	public void setCurrentItem(int i){
 		int finalX = (i == PAGE_MAIN) ? -getScrollX() : (menuPos-getScrollX());
-		FrameworkApplication.logDebug("finalX"+finalX);
+		PhrameworkApplication.logDebug("finalX"+finalX);
 		startScroll(getScrollX(), finalX,500);
 		currentPage = i;
 	}

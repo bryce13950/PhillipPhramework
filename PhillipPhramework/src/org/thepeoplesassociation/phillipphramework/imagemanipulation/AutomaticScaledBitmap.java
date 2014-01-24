@@ -1,7 +1,7 @@
 package org.thepeoplesassociation.phillipphramework.imagemanipulation;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
-import org.thepeoplesassociation.phillipphramework.error.FrameworkException;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.error.PhrameworkException;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,15 +12,15 @@ public class AutomaticScaledBitmap {
 
 	public static final Bitmap createFromResource(int id, int width,int height){
 		if(id==0){
-			throw new FrameworkException("Please pass in a valid resource id");
+			throw new PhrameworkException("Please pass in a valid resource id");
 		}
 		if(width==0){
-			throw new FrameworkException("Please pass in a width that is greater then 0");
+			throw new PhrameworkException("Please pass in a width that is greater then 0");
 		}
 		if(height==0){
-			throw new FrameworkException("Please pass in a height that is greater then 0");
+			throw new PhrameworkException("Please pass in a height that is greater then 0");
 		}
-		Resources res=FrameworkApplication.instance.getResources();
+		Resources res=PhrameworkApplication.instance.getResources();
     	BitmapFactory.Options boundsOptions=new BitmapFactory.Options();
     	boundsOptions.inJustDecodeBounds=true;
 		BitmapFactory.decodeResource(res, id,boundsOptions);
@@ -44,12 +44,12 @@ public class AutomaticScaledBitmap {
 	
 	public static final Bitmap createFromResourceExactSize(int id, int width, int height){
 		if(id==0){
-			throw new FrameworkException("Please pass in a valid resource id");
+			throw new PhrameworkException("Please pass in a valid resource id");
 		}
 		if(width == 0 && height == 0){
-			throw new FrameworkException("Please pass in a width or height that is greater then 0");
+			throw new PhrameworkException("Please pass in a width or height that is greater then 0");
 		}
-		Resources res=FrameworkApplication.instance.getResources();
+		Resources res=PhrameworkApplication.instance.getResources();
     	BitmapFactory.Options boundsOptions=new BitmapFactory.Options();
     	boundsOptions.inJustDecodeBounds=true;
 		BitmapFactory.decodeResource(res, id,boundsOptions);

@@ -3,13 +3,13 @@ package org.thepeoplesassociation.phillipphramework;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.thepeoplesassociation.phillipphramework.communication.FrameworkBluetooth;
+import org.thepeoplesassociation.phillipphramework.communication.PhrameworkBluetooth;
 import org.thepeoplesassociation.phillipphramework.datamanipulation.DatabaseTable;
-import org.thepeoplesassociation.phillipphramework.datamanipulation.FrameworkDatabase;
-import org.thepeoplesassociation.phillipphramework.datamanipulation.FrameworkPreferences;
+import org.thepeoplesassociation.phillipphramework.datamanipulation.PhrameworkDatabase;
+import org.thepeoplesassociation.phillipphramework.datamanipulation.PhrameworkPreferences;
 import org.thepeoplesassociation.phillipphramework.error.ErrorReport;
-import org.thepeoplesassociation.phillipphramework.error.FrameworkException;
-import org.thepeoplesassociation.phillipphramework.error.FrameworkExceptionHandler;
+import org.thepeoplesassociation.phillipphramework.error.PhrameworkException;
+import org.thepeoplesassociation.phillipphramework.error.PhrameworkExceptionHandler;
 import org.thepeoplesassociation.phillipphramework.error.TableError;
 
 import android.annotation.SuppressLint;
@@ -20,7 +20,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 
-public abstract class FrameworkApplication extends Application {
+public abstract class PhrameworkApplication extends Application {
 /****************************************************************************************************************************
  * variables
  ***************************************************************************************************************************/
@@ -33,8 +33,8 @@ public abstract class FrameworkApplication extends Application {
 	/**
 	 * a static reference to the current running application
 	 */
-	public static FrameworkApplication instance;
-	private FrameworkActivity lastActivity;
+	public static PhrameworkApplication instance;
+	private PhrameworkActivity lastActivity;
 	/**
 	 * boolean value for if this is the first time the database has been created.<br>
 	 * this is important because if the database needs to have some values inserted
@@ -45,17 +45,17 @@ public abstract class FrameworkApplication extends Application {
 	/**
 	 * the current instance of this applications database
 	 */
-	private FrameworkDatabase database;
+	private PhrameworkDatabase database;
 	/**
 	 * the current instance of this application preferences
 	 */
-	private FrameworkPreferences preferences;
+	private PhrameworkPreferences preferences;
 	/**
 	 * the current instance of the blue tooth helper if necessary
 	 */
-	FrameworkBluetooth bluetooth;
+	PhrameworkBluetooth bluetooth;
 	public boolean searchingForBluetooth;
-	protected ArrayList<FrameworkActivity> activities = new ArrayList<FrameworkActivity>();
+	protected ArrayList<PhrameworkActivity> activities = new ArrayList<PhrameworkActivity>();
 /****************************************************************************************************************************
  * initialization methods
  ***************************************************************************************************************************/
@@ -76,7 +76,7 @@ public abstract class FrameworkApplication extends Application {
 	 */
 	private void initExceptionHandling(){
 		instance=this;
-		Thread.setDefaultUncaughtExceptionHandler(new FrameworkExceptionHandler("main",Thread.getDefaultUncaughtExceptionHandler()));
+		Thread.setDefaultUncaughtExceptionHandler(new PhrameworkExceptionHandler("main",Thread.getDefaultUncaughtExceptionHandler()));
 	}
 	/**
 	 * do stuff that here that needs to be done before onCreate
@@ -87,13 +87,13 @@ public abstract class FrameworkApplication extends Application {
 	 */
 	private void initData(){
 		if(getDatabaseTables()!=null){
-			database=new FrameworkDatabase(this);
+			database=new PhrameworkDatabase(this);
 			if(firstCreate)onDatabaseCreated();
 		}
 		if(getPreferencesName()==null){
-			throw new FrameworkException("Please speicify the name of the shared preferences file");
+			throw new PhrameworkException("Please speicify the name of the shared preferences file");
 		}
-		preferences=new FrameworkPreferences(this);
+		preferences=new PhrameworkPreferences(this);
 		checkIfUpdate();
 	}
 	/**
@@ -110,22 +110,22 @@ public abstract class FrameworkApplication extends Application {
 /****************************************************************************************************************************
  * activity stuff
  ***************************************************************************************************************************/
-	void addActivity(FrameworkActivity activity){
+	void addActivity(PhrameworkActivity activity){
 		lastActivity = activity;
 		activities.add(activity);
 	}
-	void removeActivity(FrameworkActivity activity){
+	void removeActivity(PhrameworkActivity activity){
 		activities.remove(activity);
 	}
-	public FrameworkActivity instanceExists(Class<?> searchFor){
-		for(FrameworkActivity activity : activities){
+	public PhrameworkActivity instanceExists(Class<?> searchFor){
+		for(PhrameworkActivity activity : activities){
 			if(activity.getClass().isInstance(searchFor) ){
 				return activity;
 			}
 		}
 		return null;
 	}
-	public boolean restoreActivity(FrameworkActivity activity){
+	public boolean restoreActivity(PhrameworkActivity activity){
 		boolean activityRestored = activity.isFinishing();
 		for(int i = activities.size() - 1; i >= 0; i--){
 			if(activities.get(i) != activity)
@@ -211,7 +211,7 @@ public abstract class FrameworkApplication extends Application {
 	/**
 	 * @return a handle to the database helper for this application
 	 */
-	public FrameworkDatabase getDatabase(){
+	public PhrameworkDatabase getDatabase(){
 		return database;
 	}
 /****************************************************************************************************************************
@@ -220,7 +220,7 @@ public abstract class FrameworkApplication extends Application {
 	/**
 	 * @return a handle to the shared preferences for this application
 	 */
-	public FrameworkPreferences getPreferences(){
+	public PhrameworkPreferences getPreferences(){
 		return preferences;
 	}
 /****************************************************************************************************************************
@@ -229,7 +229,7 @@ public abstract class FrameworkApplication extends Application {
 	/**
 	 * @return a handle to the bluetooth helper
 	 */
-	public FrameworkBluetooth getBluetooth(){
+	public PhrameworkBluetooth getBluetooth(){
 		return bluetooth;
 	}
 	
@@ -240,8 +240,8 @@ public abstract class FrameworkApplication extends Application {
 				bluetooth.getAdapter().enable();
 			else{
 				Activity activity = getRecentActivity();
-				if(activity != null && activity instanceof FrameworkActivity){
-					((FrameworkActivity)activity).requestBluetoothEnable();
+				if(activity != null && activity instanceof PhrameworkActivity){
+					((PhrameworkActivity)activity).requestBluetoothEnable();
 				}
 			}
 		}
@@ -261,22 +261,18 @@ public abstract class FrameworkApplication extends Application {
 	/**
 	 * @return the current running instance of this application
 	 */
-	public static FrameworkApplication getInstance(){
+	public static PhrameworkApplication getInstance(){
 		return instance;
 	}
-	/**
-	 * @return the log tag for debugging
-	 */
-	protected abstract String getLogTag();
 	/**
 	 * sends a log message to logcat
 	 * @param message the message to log
 	 */
 	public static void logDebug(String message){
-		if(instance.getLogTag()==null){
-			throw new FrameworkException("You forgot to specify a log tag, you are indeed retarded");
+		if(instance.getApplicationName()==null){
+			throw new PhrameworkException("You forgot to specify a log tag, you are indeed retarded");
 		}
-		if(instance.getDebuggable())Log.d(instance.getLogTag(),message);
+		if(instance.getDebuggable())Log.d(instance.getApplicationName(),message);
 	}
 	
 	public static void handleCaughtException(Throwable t, String name){
@@ -289,7 +285,7 @@ public abstract class FrameworkApplication extends Application {
 	 * @param name the name of the location of the exception
 	 */
 	public static void handleCaughtException(Throwable t,String name, String extras){
-		Log.d(instance.getLogTag(),name+"\n"+t.getMessage());
+		Log.d(instance.getApplicationName(),name+"\n"+t.getMessage());
 		new ErrorReport(t, name, extras);
 	}
 	public abstract boolean getDebuggable();

@@ -1,6 +1,6 @@
 package org.thepeoplesassociation.phillipphramework.location;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -127,7 +127,7 @@ public class SmartLocationService extends Service implements LocationListener, G
 
     private void continueStartLocation() {
         if (smartLocationOptions.isDebugging()) {
-        	FrameworkApplication.logDebug("[LOCATION] continueStartLocation");
+        	PhrameworkApplication.logDebug("[LOCATION] continueStartLocation");
         }
         locationClient.requestLocationUpdates(locationRequest, this);
         IntentFilter intentFilterActivityUpdates = new IntentFilter(ActivityRecognitionConstants.ACTIVITY_CHANGED_INTENT);
@@ -161,7 +161,7 @@ public class SmartLocationService extends Service implements LocationListener, G
             int activityType = intent.getIntExtra(ActivityRecognitionConstants.ACTIVITY_KEY, DetectedActivity.UNKNOWN);
             int confidence = intent.getIntExtra(ActivityRecognitionConstants.ACTIVITY_CONFIDENCE_KEY, 0);
             if (smartLocationOptions.isDebugging()) {
-                FrameworkApplication.logDebug( "[ACTIVITY] new activity detected = " + activityType + " with confidence of " + confidence + "%");
+                PhrameworkApplication.logDebug( "[ACTIVITY] new activity detected = " + activityType + " with confidence of " + confidence + "%");
             }
             currentActivity = new DetectedActivity(activityType, confidence);
 
@@ -179,7 +179,7 @@ public class SmartLocationService extends Service implements LocationListener, G
     public void onLocationChanged(Location location) {
         lastLocation = location;
         if (smartLocationOptions.isDebugging()) {
-            FrameworkApplication.logDebug( "[LOCATION] Received location " + location);
+            PhrameworkApplication.logDebug( "[LOCATION] Received location " + location);
         }
         processLocation(location);
     }
@@ -187,7 +187,7 @@ public class SmartLocationService extends Service implements LocationListener, G
     private void processLocation(Location location) {
         String intentName = getLocationUpdatedIntentName();
         if (smartLocationOptions.isDebugging()) {
-            FrameworkApplication.logDebug( "[LOCATION] Broadcasting new location intent " + intentName);
+            PhrameworkApplication.logDebug( "[LOCATION] Broadcasting new location intent " + intentName);
         }
 
         Intent broadcastIntent = new Intent();
@@ -204,7 +204,7 @@ public class SmartLocationService extends Service implements LocationListener, G
     @Override
     public void onConnected(Bundle bundle) {
         if (smartLocationOptions.isDebugging()) {
-            FrameworkApplication.logDebug( "[LOCATION] connected");
+            PhrameworkApplication.logDebug( "[LOCATION] connected");
         }
         continueStartLocation();
     }
@@ -212,7 +212,7 @@ public class SmartLocationService extends Service implements LocationListener, G
     @Override
     public void onDisconnected() {
         if (smartLocationOptions.isDebugging()) {
-            FrameworkApplication.logDebug( "[LOCATION] disconnected");
+            PhrameworkApplication.logDebug( "[LOCATION] disconnected");
         }
     }
 
@@ -222,15 +222,15 @@ public class SmartLocationService extends Service implements LocationListener, G
     	case ConnectionResult.SERVICE_DISABLED:
     	case ConnectionResult.SERVICE_MISSING:
     	case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-    		GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), FrameworkApplication.instance.getRecentActivity(), FrameworkApplication.REQUEST_PLAYSERVICE_ERROR).show();
+    		GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), PhrameworkApplication.instance.getRecentActivity(), PhrameworkApplication.REQUEST_PLAYSERVICE_ERROR).show();
     	}
         if (smartLocationOptions.isDebugging()) {
-           FrameworkApplication.logDebug( "[LOCATION] connectionFailed reason"+connectionResult.getErrorCode());
+           PhrameworkApplication.logDebug( "[LOCATION] connectionFailed reason"+connectionResult.getErrorCode());
         }
     }
 
     private void storeLastLocation(Location location) {
-    	FrameworkApplication.logDebug("storeLast"+location);
+    	PhrameworkApplication.logDebug("storeLast"+location);
         if (sharedPreferences == null) {
             sharedPreferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         }

@@ -1,6 +1,6 @@
 package org.thepeoplesassociation.phillipphramework;
 
-import org.thepeoplesassociation.phillipphramework.communication.FrameworkBluetooth;
+import org.thepeoplesassociation.phillipphramework.communication.PhrameworkBluetooth;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 import com.bryce13950.framework.R;
 
-public abstract class FrameworkActivity extends Activity{
+public abstract class PhrameworkActivity extends Activity{
 
 	protected static final int NOTHING = 0;
 	protected static final int BLUETOOTH = 1;
@@ -21,9 +21,9 @@ public abstract class FrameworkActivity extends Activity{
 	
 	private static final int REQUEST_ENABLE_BT = 1000;
 	
-	protected FrameworkApplication application;
+	protected PhrameworkApplication application;
 	
-	protected FrameworkBluetooth bluetooth;
+	protected PhrameworkBluetooth bluetooth;
 	
 	protected boolean bluetoothSupported;
 	
@@ -36,7 +36,7 @@ public abstract class FrameworkActivity extends Activity{
 	 */
 	protected void onCreate(Bundle savedInstanceState, int layout, int initiate){
 		super.onCreate(savedInstanceState);
-		application = (FrameworkApplication) getApplication();
+		application = (PhrameworkApplication) getApplication();
 		application.addActivity(this);
 		setContentView(layout);
 		if(initiate - LOCATION_COARSE >= 0){
@@ -57,7 +57,7 @@ public abstract class FrameworkActivity extends Activity{
 	}
 	
 	protected final void initiateBluetooth(boolean notify){
-		if(application.bluetooth == null) application.bluetooth = new FrameworkBluetooth();
+		if(application.bluetooth == null) application.bluetooth = new PhrameworkBluetooth();
 		bluetooth = application.bluetooth;
 		bluetoothSupported = application.bluetooth.bluetoothSupported();
 		if(!bluetoothSupported && notify)

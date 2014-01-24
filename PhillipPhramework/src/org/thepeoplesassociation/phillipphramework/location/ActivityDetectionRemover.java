@@ -1,6 +1,6 @@
 package org.thepeoplesassociation.phillipphramework.location;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -64,7 +64,7 @@ public class ActivityDetectionRemover implements GooglePlayServicesClient.Connec
     @Override
     public void onConnected(Bundle bundle) {
     	if(smartLocationOptions.isDebugging()) {
-    		FrameworkApplication.logDebug( "connected");
+    		PhrameworkApplication.logDebug( "connected");
     	}
         continueRemoveUpdates();
     }
@@ -72,7 +72,7 @@ public class ActivityDetectionRemover implements GooglePlayServicesClient.Connec
     @Override
     public void onDisconnected() {
     	if(smartLocationOptions.isDebugging()) {
-    		FrameworkApplication.logDebug( "disconnected");
+    		PhrameworkApplication.logDebug( "disconnected");
     	}
         setActivityRecognitionClient(null);
     }
@@ -80,7 +80,7 @@ public class ActivityDetectionRemover implements GooglePlayServicesClient.Connec
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
     	if(smartLocationOptions.isDebugging()) {
-    		FrameworkApplication.logDebug( "connection failed");
+    		PhrameworkApplication.logDebug( "connection failed");
     	}
     }
 }

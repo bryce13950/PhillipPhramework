@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkActivity;
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkActivity;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,7 +22,7 @@ import android.os.ParcelUuid;
 
 import com.bryce13950.framework.R;
 
-public class FrameworkBluetooth {
+public class PhrameworkBluetooth {
 	
 	private BluetoothAdapter mAdapter;
 	
@@ -34,13 +34,13 @@ public class FrameworkBluetooth {
 	
 	private ArrayList<BluetoothDevice> devices;
 	
-	private FrameworkApplication application;
+	private PhrameworkApplication application;
 	
 	private static DiscoverBluetoothDevices bluetoothDiscovery;
 	
-	public FrameworkBluetooth(){
+	public PhrameworkBluetooth(){
 		mAdapter = BluetoothAdapter.getDefaultAdapter();
-		application = FrameworkApplication.instance;
+		application = PhrameworkApplication.instance;
 	}
 	
 	public BluetoothSocket getSocket(){
@@ -92,7 +92,7 @@ public class FrameworkBluetooth {
 		}
 	}
 	
-	public class DiscoverBluetoothDevices extends FrameworkAsyncTask<Void,BluetoothDevice,Boolean>{
+	public class DiscoverBluetoothDevices extends PhrameworkAsyncTask<Void,BluetoothDevice,Boolean>{
 		
 		public static final int SEARCH_UNABLE = 0;
 		
@@ -104,7 +104,7 @@ public class FrameworkBluetooth {
 			super("DiscoverBluetoothDevices");
 			bluetoothDiscovery = this;
 			devices = new ArrayList<BluetoothDevice>();
-			FrameworkApplication.instance.searchingForBluetooth = true;
+			PhrameworkApplication.instance.searchingForBluetooth = true;
 			IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 			application.registerReceiver(mReceiver, filter); 
 			executeOnExecutor(THREAD_POOL_EXECUTOR);
@@ -145,7 +145,7 @@ public class FrameworkBluetooth {
 				askToEnable(R.string.bluetooth_search_unable);
 			else
 				unknownError();
-			FrameworkApplication.instance.searchingForBluetooth = false;
+			PhrameworkApplication.instance.searchingForBluetooth = false;
 		}
 	
 		private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -163,7 +163,7 @@ public class FrameworkBluetooth {
 		};
 	}
 	
-	public class ForceBluetoothConnectPaired extends FrameworkAsyncTask<Void,Void,Boolean>{
+	public class ForceBluetoothConnectPaired extends PhrameworkAsyncTask<Void,Void,Boolean>{
 		
 		public ForceBluetoothConnectPaired(BluetoothDevice device) {
 			super("ForceBluetoothConnectPaired");
@@ -194,7 +194,7 @@ public class FrameworkBluetooth {
 								mSocket = socket;
 								return true;
 							}catch(IOException e){
-								FrameworkApplication.handleCaughtException(e,e.getMessage());
+								PhrameworkApplication.handleCaughtException(e,e.getMessage());
 							}
 						}
 					}
@@ -204,7 +204,7 @@ public class FrameworkBluetooth {
 					return true;
 				}
 				catch(IOException e){
-					FrameworkApplication.logDebug(e.getMessage());
+					PhrameworkApplication.logDebug(e.getMessage());
 					//TODO this may just happen when the device is disabled
 					return false;
 				}
@@ -217,8 +217,8 @@ public class FrameworkBluetooth {
 			if(mProgressDialog!=null)mProgressDialog.dismiss();
 			if(success){
 				Activity activity = application.getRecentActivity();
-				if(activity != null && activity instanceof FrameworkActivity){
-					((FrameworkActivity)activity).onBluetoothConnectionEstablished();
+				if(activity != null && activity instanceof PhrameworkActivity){
+					((PhrameworkActivity)activity).onBluetoothConnectionEstablished();
 				}
 			}
 			else if(!mAdapter.isEnabled())

@@ -4,7 +4,7 @@ package org.thepeoplesassociation.phillipphramework.datamanipulation;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,11 +12,11 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
 
-public class FrameworkPreferences{
+public class PhrameworkPreferences{
 
 	private SharedPreferences prefs;
 	
-	public FrameworkPreferences(FrameworkApplication ma){
+	public PhrameworkPreferences(PhrameworkApplication ma){
 		prefs=ma.getSharedPreferences(ma.getPreferencesName(), Context.MODE_PRIVATE);
 	}
 	

@@ -1,6 +1,6 @@
 package org.thepeoplesassociation.phillipphramework.location;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -111,10 +111,10 @@ public class SmartLocation {
         setOnLocationUpdatedListener(listener);
 
         if (isServiceBound && boundService != null) {
-        	FrameworkApplication.logDebug("if");
+        	PhrameworkApplication.logDebug("if");
             boundService.startLocation(smartLocationOptions);
         } else {
-        	FrameworkApplication.logDebug("else");
+        	PhrameworkApplication.logDebug("else");
             isServiceBound = false;
             bindService(context);
         }

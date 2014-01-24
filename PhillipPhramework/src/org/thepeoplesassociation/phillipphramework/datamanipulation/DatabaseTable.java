@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
-import org.thepeoplesassociation.phillipphramework.error.FrameworkException;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.error.PhrameworkException;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -38,12 +38,12 @@ public class DatabaseTable {
 		Name=name;
 		isAssoc = assoc;
 		if(Name==null){
-			throw new FrameworkException("Error while creating Database Table you must specify the name of the table");
+			throw new PhrameworkException("Error while creating Database Table you must specify the name of the table");
 		}
 		Columns=columns;
 		Structures=structures;
 		if(Columns.length!=Structures.length){
-			throw new FrameworkException("Error while creating Database Table "+Name+" you must pass the same amount of structures as you are passing for columns");
+			throw new PhrameworkException("Error while creating Database Table "+Name+" you must pass the same amount of structures as you are passing for columns");
 		}
 	}
 	/**
@@ -75,7 +75,7 @@ public class DatabaseTable {
 		select+= "FROM `"+tableName+"` ";
 		select+= "WHERE `"+COLUMN_SERVER+"` IS NOT NULL";
 		
-		List<HashMap<String, String>> rows = FrameworkApplication.instance.getDatabase().getTableRaw(select);
+		List<HashMap<String, String>> rows = PhrameworkApplication.instance.getDatabase().getTableRaw(select);
 		
 		HashMap<String, String> results = new HashMap<String, String>();
 		
@@ -87,7 +87,7 @@ public class DatabaseTable {
 	}
 	
 	public void applicationUpdated(int previousVersion){
-		FrameworkApplication.logDebug("tableUpdated" + Name);
+		PhrameworkApplication.logDebug("tableUpdated" + Name);
 		HashMap<String, String> newColumns = getNewColumns(previousVersion);
 		if(newColumns != null){
 			for(Map.Entry<String, String> entry : newColumns.entrySet()){
@@ -98,7 +98,7 @@ public class DatabaseTable {
 				alter+= entry.getKey();
 				alter+= "` ";
 				alter+= entry.getValue();
-				FrameworkApplication.getInstance().getDatabase().DB.execSQL(alter);
+				PhrameworkApplication.getInstance().getDatabase().DB.execSQL(alter);
 			}
 		}
 	}

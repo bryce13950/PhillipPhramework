@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,11 +17,11 @@ import android.database.sqlite.SQLiteOpenHelper;
  * This class is designed to help with the implementation of 
  * databases inside of an android application
  */
-public class FrameworkDatabase{
+public class PhrameworkDatabase{
 	
 	public SQLiteDatabase DB;
 
-	public FrameworkDatabase(FrameworkApplication ma){
+	public PhrameworkDatabase(PhrameworkApplication ma){
 		Helper helper=new Helper(ma,ma.getDatabaseName(),ma.getDatabaseVersion(),ma.getAllDatabaseTables());
 		DB=helper.getWritableDatabase();
 	}
@@ -160,8 +160,8 @@ public class FrameworkDatabase{
 	private static final class Helper extends SQLiteOpenHelper{
 
 		private final List<DatabaseTable> Tables;
-		private final FrameworkApplication MA;
-		public Helper(FrameworkApplication ma,String name,int version,List<DatabaseTable> tables){ 
+		private final PhrameworkApplication MA;
+		public Helper(PhrameworkApplication ma,String name,int version,List<DatabaseTable> tables){ 
 			super(ma,name,null,version);
 			Tables=tables;
 			MA=ma;

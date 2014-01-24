@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.thepeoplesassociation.phillipphramework.FrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -61,7 +61,7 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 	
 	@Override
 	protected Void doInBackground(Void... params) {
-		String url= FrameworkApplication.instance.getErrorURL();
+		String url= PhrameworkApplication.instance.getErrorURL();
 		try{
 			HttpPost post=new HttpPost(url);
 			ArrayList<NameValuePair> data=getError();
@@ -73,8 +73,8 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
             
             HttpResponse response =httpClient.execute(post);
             HttpEntity ent = response.getEntity();
-            FrameworkApplication.logDebug("response"+EntityUtils.toString(ent));
-            FrameworkApplication.instance.getDatabase().update(TableError.NAME, TableError.COLUMN_SUCCESSFUL,"1", "id",""+localId);
+            PhrameworkApplication.logDebug("response"+EntityUtils.toString(ent));
+            PhrameworkApplication.instance.getDatabase().update(TableError.NAME, TableError.COLUMN_SUCCESSFUL,"1", "id",""+localId);
             
 		}
 		catch(Exception e){
@@ -97,7 +97,7 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 				TableError.COLUMN_MESSAGE, TableError.COLUMN_STACK_TRACE, TableError.COLUMN_TIME
 			};
 			String[] values = new String[]{
-				""+VERSION.SDK_INT, ""+FrameworkApplication.instance.getPackageManager().getPackageInfo(FrameworkApplication.instance.getPackageName(), 0).versionCode, thrown.getClass().toString(),
+				""+VERSION.SDK_INT, ""+PhrameworkApplication.instance.getPackageManager().getPackageInfo(PhrameworkApplication.instance.getPackageName(), 0).versionCode, thrown.getClass().toString(),
 				extraData, thrown.getLocalizedMessage(), Location,
 				thrown.getMessage(), getStackTrace(), "" + System.currentTimeMillis()
 			};
@@ -105,10 +105,10 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 				data.add(new BasicNameValuePair(columns[i], values[i]));
 			}
 			data.add(new BasicNameValuePair(TableError.COLUMN_SUCCESSFUL, "1"));
-			localId = FrameworkApplication.instance.getDatabase().Insert(TableError.NAME, columns, values);
+			localId = PhrameworkApplication.instance.getDatabase().Insert(TableError.NAME, columns, values);
 		
 		}
-		data.add(new BasicNameValuePair("application", FrameworkApplication.instance.getApplicationName()));
+		data.add(new BasicNameValuePair("application", PhrameworkApplication.instance.getApplicationName()));
 		String serial;
 		if(VERSION.SDK_INT < 9)
 			serial = "no_serial";
