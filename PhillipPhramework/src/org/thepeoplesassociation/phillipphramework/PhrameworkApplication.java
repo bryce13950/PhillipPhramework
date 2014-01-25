@@ -48,10 +48,6 @@ public abstract class PhrameworkApplication extends Application {
 	 * the current instance of this application preferences
 	 */
 	private PhrameworkPreferences preferences;
-	/**
-	 * the current instance of the blue tooth helper if necessary
-	 */
-	public boolean searchingForBluetooth;
 	
 	public static Location lastLocation;
 	protected ArrayList<PhrameworkActivity> activities = new ArrayList<PhrameworkActivity>();
