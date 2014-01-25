@@ -110,4 +110,15 @@ public class DatabaseTable {
 	protected HashMap<String, String> getNewColumns(int previousVersion){
 		return null;
 	}
+	
+	public static String getInValues(List<HashMap<String,String>> rows, String key){
+		String in = "(";
+		for(HashMap<String, String> data : rows)
+			if(!in.contains(","+data.get(key)+",")
+					&& !in.contains("("+data.get(key)+","))
+				in+= data.get(key)+",";
+		if(!in.equals("("))
+			in = in.substring(0, in.length() - 1);
+		return in+")";
+	}
 }

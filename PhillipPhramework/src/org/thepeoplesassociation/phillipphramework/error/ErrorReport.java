@@ -105,7 +105,7 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 				data.add(new BasicNameValuePair(columns[i], values[i]));
 			}
 			data.add(new BasicNameValuePair(TableError.COLUMN_SUCCESSFUL, "1"));
-			localId = PhrameworkApplication.instance.getDatabase().Insert(TableError.NAME, columns, values);
+			localId = PhrameworkApplication.instance.getDatabase().insert(TableError.NAME, columns, values);
 		
 		}
 		data.add(new BasicNameValuePair("application", PhrameworkApplication.instance.getApplicationName()));

@@ -8,6 +8,7 @@ import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -86,23 +87,49 @@ public class PhrameworkDatabase{
 		return returnVal;
 	}
 	
+
 	
-	public void update(String table,String updateField,String updateArg,String where,String whereArg){
-		ContentValues values=new ContentValues();
-		values.put(updateField, updateArg);
-		DB.update(table, values, where+"=?", new String[]{whereArg});
+	/**
+	 * calls the other update method in this class
+	 * @param table the table we want to update
+	 * @param id the id of the row in the table that we want to update
+	 * @param column the column that we want to update
+	 * @param value the value we want to update the column with
+	 */
+	public int update(String table,String whereValue,String column,String value){
+		return update(table,whereValue,new String[]{column},new String[]{value});
 	}
 	
-	public void update(String table, String[] updateFields, String[] updateArgs, String where, String whereArg){
-		ContentValues values = new ContentValues();
-		for(int i = 0; i < updateFields.length; i++){
-			values.put(updateFields[i], updateArgs[i]);
+	public int update(String table,String whereValue,String[] column,String[] value){
+		return update(table,"id",whereValue,column,value);
+	}
+	public int update(String table,String whereField,String whereValue,String column,String value)throws SQLException{
+		return update(table,whereField,whereValue,new String[]{column},new String[]{value});
+	}
+		
+	/**
+	 * build and constructs the update values and executes the update
+	 * @param table the table we want to update
+	 * @param clumnId the column that will hold the id that is being passed
+	 * @param id the id of the row in the table that we want to update
+	 * @param columns the columns that we want to update
+	 * @param values the values asociated with the columns
+	 * @throws SQLException if the values and columns are not the same length then this exception will be thrown
+	 * @return number of rows effected
+	 */
+	public int update(String table,String whereField,String whereValue,String[] columns,String[] values)throws SQLException{
+		if(columns.length!=values.length){
+			throw new SQLException("columns and values must be the same amount when update a field");
 		}
-		DB.update(table, values, where + " = ?", new String[]{whereArg});
+		ContentValues updateVal=new ContentValues();
+		for(int i=0;i<values.length;i++){
+			updateVal.put(columns[i],values[i]);
+		}
+		return DB.update(table, updateVal, whereField+"= ?", new String[]{whereValue});
 	}
 	
-	public long Insert(String table,String column,String value){
-		return Insert(table,new String[]{column},new String[]{value});
+	public long insert(String table,String column,String value){
+		return insert(table,new String[]{column},new String[]{value});
 	}
 	/**
 	 * this method builds and executes insert statements
@@ -112,7 +139,7 @@ public class PhrameworkDatabase{
 	 * 
 	 * @param values = the values for the columns
 	 */
-	public long Insert(String table, String[] columns, String[] values){
+	public long insert(String table, String[] columns, String[] values){
 		if(columns.length!=values.length){
 			throw new SQLiteException("values and columns must be the same size");
 		}
