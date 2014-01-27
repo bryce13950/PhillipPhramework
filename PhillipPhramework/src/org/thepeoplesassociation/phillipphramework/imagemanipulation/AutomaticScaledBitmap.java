@@ -21,7 +21,18 @@ import android.os.Environment;
 
 
 public class AutomaticScaledBitmap {
-
+	/**
+	 * create a file from a specific point on the folder
+	 * @param path the path of the file
+	 * @return the bitmap that was at the file
+	 * @throws PhrameworkException throws an exception if the bitmap did not exist
+	 */
+	public static final Bitmap createFromPath(String path) throws PhrameworkException{
+		Bitmap bm = BitmapFactory.decodeFile(path);
+		if(bm == null)
+			throw new PhrameworkException("Stored Bitmap did not exist");
+		return bm;
+	}
 	public static final Bitmap createFromResource(int id, int width,int height){
 		if(id==0){
 			throw new PhrameworkException("Please pass in a valid resource id");
