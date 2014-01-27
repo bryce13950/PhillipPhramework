@@ -1,10 +1,10 @@
 package org.thepeoplesassociation.phillipphramework.datamanipulation;
 
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.thepeoplesassociation.phillipphramework.PhrameworkApplication;
+import org.thepeoplesassociation.phillipphramework.error.PhrameworkException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,32 +20,29 @@ public class PhrameworkPreferences{
 		prefs=ma.getSharedPreferences(ma.getPreferencesName(), Context.MODE_PRIVATE);
 	}
 	
-	public void put(String k, Object o){
-		ArrayList<String> keys = new ArrayList<String>();
-		keys.add(k);
-		ArrayList<Object> objs = new ArrayList<Object>();
-		objs.add(o);
-		put(keys, objs);
+	public void put(String key, Object obj){
+		put(new String[]{key}, new Object[] {obj});
 	}
 	
-	public void put(ArrayList<String> keys, ArrayList<Object> objs){
-		if(keys.size()!=objs.size())throw new RuntimeException("Your must pass the same amount of keys and objects");
+	public void put(String[] keys, Object[] objs){
+		if(keys.length!=objs.length)
+			throw new PhrameworkException("Your must pass the same amount of keys and objects");
 		SharedPreferences.Editor edit=edit();
-		for(int i=0;i<keys.size();i++){
-			if(objs.get(i) instanceof String){
-				edit.putString(keys.get(i), (String)objs.get(i));
+		for(int i=0;i<keys.length;i++){
+			if(objs[i] instanceof String){
+				edit.putString(keys[i], (String)objs[i]);
 			}
-			else if(objs.get(i) instanceof Boolean){
-				edit.putBoolean(keys.get(i), (Boolean)objs.get(i));
+			else if(objs[i] instanceof Boolean){
+				edit.putBoolean(keys[i], (Boolean)objs[i]);
 			}
-			else if(objs.get(i) instanceof Integer){
-				edit.putInt(keys.get(i), (Integer)objs.get(i));
+			else if(objs[i] instanceof Integer){
+				edit.putInt(keys[i], (Integer)objs[i]);
 			}
-			else if(objs.get(i) instanceof Float){
-				edit.putFloat(keys.get(i), (Float)objs.get(i));
+			else if(objs[i] instanceof Float){
+				edit.putFloat(keys[i], (Float)objs[i]);
 			}
-			else if(objs.get(i) instanceof Long){
-				edit.putLong(keys.get(i), (Long)objs.get(i));
+			else if(objs[i] instanceof Long){
+				edit.putLong(keys[i], (Long)objs[i]);
 			}
 		}
 		edit.commit();
@@ -60,7 +57,7 @@ public class PhrameworkPreferences{
 	}
 
 	public Map<String, ?> getAll() {
-		return null;
+		return prefs.getAll();
 	}
 
 	public boolean getBoolean(String key, boolean defValue) {
@@ -85,11 +82,21 @@ public class PhrameworkPreferences{
 	public void deletePref(String pref){
 		deletePrefs(new String[]{pref});
 	}
+	/**
+	 * clear a specific set of preferences
+	 * @param prefs the array of preferences you want to delete
+	 */
 	public void deletePrefs(String[] prefs){
 		Editor edit = edit();
 		for(String pref: prefs){
 			edit.remove(pref);
 		}
+		edit.commit();
+	}
+	
+	public void clearPrefereneces(){
+		SharedPreferences.Editor edit = prefs.edit();
+		edit.clear();
 		edit.commit();
 	}
 
