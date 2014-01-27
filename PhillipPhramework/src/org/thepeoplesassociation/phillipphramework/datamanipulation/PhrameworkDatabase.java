@@ -148,20 +148,34 @@ public class PhrameworkDatabase{
 		c.close();
 		return null;
 	}
+
+	
+	public HashMap<String,String> getRow(String table, String id){
+		return getRow(table, "id", id);
+	}
 	
 	public HashMap<String,String> getRow(String table, String name, String value){
-		Cursor c=DB.query( table, null, name+"=?", new String[]{value}, null, null, "id DESC", "1");
+		return getRow(table, new String[]{name}, new String[]{value});
+	}
+	public HashMap<String,String> getRow(String table, String[] whereColumns, String[] whereValues){
+		Cursor c = DB.query(table, null, getParameterizedWhere(whereColumns), whereValues,null, null, null);
 
-		while(c.moveToNext()){
-			HashMap<String,String> data=new HashMap<String,String>();
-			for(int i=0;i<c.getColumnCount();i++){
-				data.put(c.getColumnName(i), c.getString(i));
-			}
-			c.close();
-			return data;
+		List<HashMap<String, String>> rows = toList(c);
+		return rows.size() > 0 ? rows.get(0) : null;
+	}
+	/**
+	 * turns an array into a string with parameters
+	 * @param columns
+	 * @return
+	 */
+	private String getParameterizedWhere(String[] columns){
+		String column="`";
+		for(int i=0;i<columns.length;i++){
+			column+=columns[i];
+			column+="` = ?";
+			if(i!=columns.length-1)column+=" AND `";
 		}
-		c.close();
-		return null;
+		return column;
 	}
 	public List<HashMap<String,String>> toList(Cursor c){
 		List<HashMap<String,String>> r=new ArrayList<HashMap<String,String>>();
