@@ -51,31 +51,15 @@ public class PhrameworkDatabase{
 		return getTable(table,where,whereColumns);
 	}
 	public	List<HashMap<String,String>> getTable(String table,String where,String[] whereArgs){
-		List<HashMap<String,String>> returnValue=new ArrayList<HashMap<String,String>>();
 		Cursor c=DB.query(table, null,where,whereArgs, null,null, null);
-		while(c.moveToNext()){
-			HashMap<String,String> data=new HashMap<String,String>();
-			for(int i=0;i<c.getColumnCount();i++){
-				data.put(c.getColumnName(i), c.getString(i));
-			}
-			returnValue.add(data);
-		}
-		c.close();
-		return returnValue;
+		
+		return toList(c);
 	}
 	
 	public List<HashMap<String,String>> getTableRaw(String query){
-		List<HashMap<String,String>> returnValue=new ArrayList<HashMap<String,String>>();
 		Cursor c = DB.rawQuery(query, null);
-		while(c.moveToNext()){
-			HashMap<String,String> data=new HashMap<String,String>();
-			for(int i=0;i<c.getColumnCount();i++){
-				data.put(c.getColumnName(i), c.getString(i));
-			}
-			returnValue.add(data);
-		}
-		c.close();
-		return returnValue;
+		
+		return toList(c);
 	}
 	
 	public String getField(String table,String field,String whereColumn,String whereValue){
@@ -178,6 +162,23 @@ public class PhrameworkDatabase{
 		}
 		c.close();
 		return null;
+	}
+	public List<HashMap<String,String>> toList(Cursor c){
+		List<HashMap<String,String>> r=new ArrayList<HashMap<String,String>>();
+		if(c.getCount()==0)return r;
+		c.moveToFirst();
+		do
+		{
+			HashMap<String,String> map=new HashMap<String,String>();
+			String[] columns=c.getColumnNames();
+			for(int i=0;i<columns.length;i++){
+				map.put(columns[i], c.getString(i));
+			}
+			r.add(map);
+		}
+		while(c.moveToNext());
+		c.close();
+		return r;
 	}
 	
 	public boolean delete(String table, String column, String value){
