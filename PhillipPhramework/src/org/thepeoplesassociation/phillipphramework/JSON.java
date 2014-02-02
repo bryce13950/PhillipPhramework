@@ -57,17 +57,17 @@ public class JSON {
 	
 	public static List<HashMap<String,String>> convertJSONArrayToList(JSONArray array){
 	    List<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
-    	for(int i=0;i<array.length();i++){
-	    		JSONObject obj = array.optJSONObject(i);
-	    		Iterator<String> iter = obj.keys();
-    			HashMap<String,String> hash = new HashMap<String,String>();
-	    		while (iter.hasNext()){
-	    			String key = iter.next();
-	    			String value = obj.optString(key);
-	    			hash.put(key, value);
-	    		}
-	    	list.add(hash);
-    	}
+		for(int i=0;i<array.length();i++){
+    		JSONObject obj = array.optJSONObject(i);
+    		Iterator<String> iter = obj.keys();
+			HashMap<String,String> hash = new HashMap<String,String>();
+    		while (iter.hasNext()){
+    			String key = iter.next();
+    			String value = obj.optString(key);
+    			hash.put(key, value);
+    		}
+    	list.add(hash);
+		}
 	    return list;
 	}
 	
