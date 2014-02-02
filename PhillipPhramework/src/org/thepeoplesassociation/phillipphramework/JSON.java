@@ -1,6 +1,8 @@
 package org.thepeoplesassociation.phillipphramework;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +53,22 @@ public class JSON {
 	        json_arr.put(json_obj);
 	    }
 	    return json_arr.toString();
+	}
+	
+	public static List<HashMap<String,String>> convertJSONArrayToList(JSONArray array){
+	    List<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
+    	for(int i=0;i<array.length();i++){
+	    		JSONObject obj = array.optJSONObject(i);
+	    		Iterator<String> iter = obj.keys();
+    			HashMap<String,String> hash = new HashMap<String,String>();
+	    		while (iter.hasNext()){
+	    			String key = iter.next();
+	    			String value = obj.optString(key);
+	    			hash.put(key, value);
+	    		}
+	    	list.add(hash);
+    	}
+	    return list;
 	}
 	
 	public static String mapToJSONString(Map<String, ?> map){
