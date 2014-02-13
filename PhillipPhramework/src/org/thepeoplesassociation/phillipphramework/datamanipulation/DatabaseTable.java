@@ -86,6 +86,10 @@ public class DatabaseTable {
 		return results;
 	}
 	
+	public static String getServerId(String tableName, String localId){
+		return PhrameworkApplication.getInstance().getDatabase().getField(tableName, COLUMN_SERVER, COLUMN_ID, localId);
+	}
+	
 	public void applicationUpdated(int previousVersion){
 		PhrameworkApplication.logDebug("tableUpdated" + Name);
 		HashMap<String, String> newColumns = getNewColumns(previousVersion);
