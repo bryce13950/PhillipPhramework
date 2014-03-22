@@ -17,7 +17,11 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.util.Log;
 
-
+/**
+ * 
+ * @author Bryce Meyer 414-208-0180 bryce13950@gmail.com https://github.com/bryce13950
+ *
+ */
 public abstract class PhrameworkApplication extends Application {
 /****************************************************************************************************************************
  * variables
