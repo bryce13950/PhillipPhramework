@@ -74,9 +74,9 @@ public class PhrameworkDatabase{
 
 	
 	/**
-	 * calls the other update method in this class
+	 * Calls an update that updates based on the local id
 	 * @param table the table we want to update
-	 * @param id the id of the row in the table that we want to update
+	 * @param whereValue the local id of the row in the table that we want to update
 	 * @param column the column that we want to update
 	 * @param value the value we want to update the column with
 	 */

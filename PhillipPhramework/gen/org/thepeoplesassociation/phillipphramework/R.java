@@ -132,7 +132,7 @@ containing a value of this type.
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:left
+          @attr name org.thepeoplesassociation.phillipphramework:left
         */
         public static final int SlidingMenu_left = 0;
         /**
@@ -142,7 +142,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:leftButton
+          @attr name org.thepeoplesassociation.phillipphramework:leftButton
         */
         public static final int SlidingMenu_leftButton = 5;
         /**
@@ -152,7 +152,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:main
+          @attr name org.thepeoplesassociation.phillipphramework:main
         */
         public static final int SlidingMenu_main = 2;
         /**
@@ -162,7 +162,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:right
+          @attr name org.thepeoplesassociation.phillipphramework:right
         */
         public static final int SlidingMenu_right = 1;
         /**
@@ -172,7 +172,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:rightButton
+          @attr name org.thepeoplesassociation.phillipphramework:rightButton
         */
         public static final int SlidingMenu_rightButton = 4;
         /**
@@ -182,7 +182,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:rightShadowSrc
+          @attr name org.thepeoplesassociation.phillipphramework:rightShadowSrc
         */
         public static final int SlidingMenu_rightShadowSrc = 6;
         /**
@@ -196,7 +196,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:rightShadowWidth
+          @attr name org.thepeoplesassociation.phillipphramework:rightShadowWidth
         */
         public static final int SlidingMenu_rightShadowWidth = 7;
         /**
@@ -210,7 +210,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:visible_menu
+          @attr name org.thepeoplesassociation.phillipphramework:visible_menu
         */
         public static final int SlidingMenu_visible_menu = 3;
     };
