@@ -23,8 +23,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Build.VERSION;
 
-
-public class ErrorReport extends AsyncTask<Void,Void,Void>{
+/**
+ * This sends an error report to the error url that was specified in the application
+ */
+public class ErrorReport extends AsyncTask<Void,Void,Void>
+{
 
 	private String Location, extraData;
 	private Throwable thrown;
@@ -33,7 +36,8 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 	
 	private long localId;
 	
-	public ErrorReport(Throwable t,String location, String extras){
+	public ErrorReport(Throwable t,String location, String extras)
+	{
 		thrown=t;
 		extraData = extras;
 		Location=location;
@@ -47,22 +51,24 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 	}
 	
 	@SuppressLint("NewApi")
-	private void run(){
+	private void run()
+	{
 		// start compatibility code
-		if(VERSION.SDK_INT>=11){
+		if(VERSION.SDK_INT >= 11){
 			executeOnExecutor(THREAD_POOL_EXECUTOR);
 		}
 		else{
 			execute();
 		}
 		// end compatibility code
-		 
 	}
 	
 	@Override
-	protected Void doInBackground(Void... params) {
+	protected Void doInBackground(Void... params)
+	{
 		String url= PhrameworkApplication.instance.getErrorURL();
-		try{
+		try
+		{
 			HttpPost post=new HttpPost(url);
 			ArrayList<NameValuePair> data=getError();
 			post.setEntity(new UrlEncodedFormEntity(data));
@@ -77,31 +83,39 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
             PhrameworkApplication.instance.getDatabase().update(TableError.NAME, TableError.COLUMN_SUCCESSFUL,"1", "id",""+localId);
             
 		}
-		catch(Exception e){
+		catch(Exception e)
+		{
 		}
 		return null;
 	}
 	
 	@SuppressLint("NewApi")
-	private ArrayList<NameValuePair> getError() throws JSONException, NameNotFoundException{
+	private ArrayList<NameValuePair> getError() throws JSONException, NameNotFoundException
+	{
 		ArrayList<NameValuePair> data = new ArrayList<NameValuePair>();
-		if(cachedData!=null){
-			for(String key : cachedData.keySet()){
+		if(cachedData!=null)
+		{
+			for(String key : cachedData.keySet())
+			{
 				data.add(new BasicNameValuePair(key,cachedData.get(key)));
 			}
 		}
-		else{
-			String[] columns = new String[]{
+		else
+		{
+			String[] columns = new String[]
+			{
 				TableError.COLUMN_ANDROID_VERSION,TableError.COLUMN_APPLICATION_VERSION, TableError.COLUMN_CLASS,
 				TableError.COLUMN_EXTRAS, TableError.COLUMN_LOCALIZED, TableError.COLUMN_LOCATION,
 				TableError.COLUMN_MESSAGE, TableError.COLUMN_STACK_TRACE, TableError.COLUMN_TIME
 			};
-			String[] values = new String[]{
+			String[] values = new String[]
+			{
 				""+VERSION.SDK_INT, ""+PhrameworkApplication.instance.getPackageManager().getPackageInfo(PhrameworkApplication.instance.getPackageName(), 0).versionCode, thrown.getClass().toString(),
 				extraData, thrown.getLocalizedMessage(), Location,
 				thrown.getMessage(), getStackTrace(), "" + System.currentTimeMillis()
 			};
-			for(int i = 0; i < columns.length; i++){
+			for(int i = 0; i < columns.length; i++)
+			{
 				data.add(new BasicNameValuePair(columns[i], values[i]));
 			}
 			data.add(new BasicNameValuePair(TableError.COLUMN_SUCCESSFUL, "1"));
@@ -111,21 +125,26 @@ public class ErrorReport extends AsyncTask<Void,Void,Void>{
 		data.add(new BasicNameValuePair("application", PhrameworkApplication.instance.getApplicationName()));
 		String serial;
 		if(VERSION.SDK_INT < 9)
+		{
 			serial = "no_serial";
+		}
 		else
+		{
 			serial = Build.SERIAL;
+		}
 		data.add(new BasicNameValuePair("serial", serial));
 		return data;
 	}
 	
-	public String getStackTrace() throws JSONException{
+	public String getStackTrace() throws JSONException
+	{
 		
 		StackTraceElement[] stack=thrown.getStackTrace();
 		JSONArray trace=new JSONArray();
 		
 		JSONObject line;
-		for(int i=0;i<stack.length;i++){
-			
+		for(int i=0;i<stack.length;i++)
+		{
 			line = new JSONObject();
 			line.put("class", stack[i].getClassName());
 			line.put("file", stack[i].getFileName());
