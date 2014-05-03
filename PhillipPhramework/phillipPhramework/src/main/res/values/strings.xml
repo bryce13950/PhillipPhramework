@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">Framework</string>
+
+    <string name="device_unsupported">Device Unsupported</string>
+    <string name="bluetooth_required">Bluetooth is a required feature for this application, you do not seam to have a Bluetooth enabled device.</string>
+    <string name="please_wait">Please Wait...</string>
+    <string name="searching_bluetooth">Looking for Bluetooth devices</string>
+    <string name="bluetooth_search_unable">Unable to Search for Bluetooth devices. Please enable your Bluetooth, and try again.</string>
+    <string name="bluetooth_connection_unable">Unable to connect to device. Please enable your Bluetooth, and try again.</string>
+    <string name="ok">OK</string>
+    <string name="enable">Enable</string>
+    <string name="cancel">Cancel</string>
+    <string name="success">Success</string>
+
+    <string name="bluetooth_unknown">Unknown error with devices Bluetooth</string>
+
+    <string name="connecting_bluetooth">Connecting to Bluetooth device</string>
+</resources>
