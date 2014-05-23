@@ -77,7 +77,8 @@ public abstract class PhrameworkApplication extends Application
 	/**
 	 * initializes exception handling for the main thread of the app
 	 */
-	private void initExceptionHandling(){
+	private void initExceptionHandling()
+    {
 		instance=this;
 		Thread.setDefaultUncaughtExceptionHandler(new PhrameworkExceptionHandler("main",Thread.getDefaultUncaughtExceptionHandler()));
 	}
