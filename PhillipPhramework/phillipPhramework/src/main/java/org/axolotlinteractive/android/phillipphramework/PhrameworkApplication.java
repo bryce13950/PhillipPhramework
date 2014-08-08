@@ -1,7 +1,10 @@
 package org.axolotlinteractive.android.phillipphramework;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.app.Application;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.location.Location;
+import android.util.Log;
 
 import org.axolotlinteractive.android.phillipphramework.datamanipulation.DatabaseTable;
 import org.axolotlinteractive.android.phillipphramework.datamanipulation.PhrameworkDatabase;
@@ -11,11 +14,8 @@ import org.axolotlinteractive.android.phillipphramework.error.PhrameworkExceptio
 import org.axolotlinteractive.android.phillipphramework.error.PhrameworkExceptionHandler;
 import org.axolotlinteractive.android.phillipphramework.error.TableError;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.location.Location;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -60,7 +60,7 @@ public abstract class PhrameworkApplication extends Application
 	/**
 	 * A list of activities currently running in order of when they were opened
 	 */
-	protected ArrayList<PhrameworkActivity> activities = new ArrayList<PhrameworkActivity>();
+	public ArrayList<PhrameworkActivity> activities = new ArrayList<PhrameworkActivity>();
 /****************************************************************************************************************************
  * initialization methods
  ***************************************************************************************************************************/
@@ -308,7 +308,7 @@ public abstract class PhrameworkApplication extends Application
 		Log.d(instance.getApplicationName(),name+"\n"+t.getMessage());
 		new ErrorReport(t, name, extras);
 	}
-	public abstract boolean getDebuggable();
+	protected abstract boolean getDebuggable();
 	
 	public abstract String getApplicationName();
 }

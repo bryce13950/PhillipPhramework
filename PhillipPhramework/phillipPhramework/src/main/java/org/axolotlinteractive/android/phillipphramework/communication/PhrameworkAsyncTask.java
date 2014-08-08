@@ -60,7 +60,8 @@ public abstract class PhrameworkAsyncTask<Params,Progress,Result> extends AsyncT
 	protected final void onPostExecute(Result result)
 	{
 		handlePostExecute(result);
-		sendCachedData();
+        if(sendCachedData())
+            return;
 		if(PhrameworkApplication.instance != null && PhrameworkApplication.instance.getDatabase() != null)
 		{
 			List<HashMap<String,String>> errors = PhrameworkApplication.instance.getDatabase().getTableWhere(TableError.NAME,TableError.COLUMN_SUCCESSFUL,"0");
@@ -80,7 +81,8 @@ public abstract class PhrameworkAsyncTask<Params,Progress,Result> extends AsyncT
 	/**
 	 * override this method if you need to send any cached data into the server
 	 */
-	protected void sendCachedData()
+	protected boolean sendCachedData()
 	{
+        return false;
 	}
 }
